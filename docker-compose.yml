@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: gauss_seidel_backend
+    ports:
+      - "8000:8000"
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: gauss_seidel_frontend
+    network_mode: "host"
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ./frontend:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    depends_on:
+      - backend
+    restart: always
